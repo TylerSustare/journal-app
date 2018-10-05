@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableHighlight } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import navStyles from './styles/navStyles';
-import Post from './Post';
-import Posts from './Posts';
-import NewPost from './NewPost';
+import Post from './components/posts/Post';
+import Posts from './components/posts/Posts';
+import NewPost from './components/posts/NewPost';
 
 class Home extends React.Component {
     static navigationOptions = {
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 });
 
 
-export default createStackNavigator({
+export const Navigator = createStackNavigator({
     // loads first screen first
     Home: {
         screen: Home
