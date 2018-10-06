@@ -10,12 +10,14 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo/vector-icons": "^8.0.0",
     "apollo-cache-inmemory": "^1.2.10",
     "apollo-client": "^2.4.2",
     "apollo-link-http": "^1.5.5",
     "expo": "^30.0.1",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
+    "native-base": "^2.8.1",
     "react": "16.3.1",
     "react-apollo": "^2.2.4",
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",

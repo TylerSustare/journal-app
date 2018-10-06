@@ -1,31 +1,37 @@
-import gql from 'graphql-tag';
 import React, { Component } from 'react';
+import { FlatList, Text, ActivityIndicator } from 'react-native';
+import { List, ListItem, Body, Right, Icon } from 'native-base';
 import { graphql } from 'react-apollo';
-import { FlatList, Text, View, ActivityIndicator } from 'react-native';
+import gql from 'graphql-tag';
 
 class Posts extends Component {
     render() {
         const { loading, allPosts, navigation } = this.props;
         if (loading) return <ActivityIndicator size="large" />;
         return (
-            <FlatList
-                data={allPosts}
-                renderItem={({ item }) => {
-                    return ( // gotta remember to return 
-                        <View>
-                            <Text
+            <List>
+                <FlatList
+                    data={allPosts}
+                    renderItem={({ item }) => {
+                        return ( // gotta remember to return 
+                            <ListItem
                                 onPress={() => navigation.navigate('Post', {
                                     id: item.id,
                                     title: item.title // just a prop, name doesn't really matter
                                 })}
                             >
-                                {item.title}
-                            </Text>
-                        </View>
-                    );
-                }}
-                keyExtractor={item => item.id}
-            />
+                                <Body>
+                                    <Text>{item.title}</Text>
+                                </Body>
+                                <Right>
+                                    <Icon name="md-arrow-forward" />
+                                </Right>
+                            </ListItem>
+                        );
+                    }}
+                    keyExtractor={item => item.id}
+                />
+            </List>
         );
     }
 }
