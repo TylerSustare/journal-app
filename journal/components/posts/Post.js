@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo'
 
@@ -19,13 +19,22 @@ class Post extends Component {
         if (loading) return <ActivityIndicator size="large" />
         const { title, body } = Post;
         return (
-            <View>
-                <Text>{title}</Text>
-                <Text>{body}</Text>
+            <View style={styles.container}>
+                {/* <Text>{title}</Text> */}
+                <Text style={styles.bodyText}>{body}</Text>
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 20
+    },
+    bodyText: {
+        fontSize: 16
+    }
+});
 
 const postQuery = gql`
     query Post($id: ID!) {
