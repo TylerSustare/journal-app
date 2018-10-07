@@ -12,7 +12,11 @@ export default class UserForm extends Component {
     }
 
     submitForm = () => {
-
+        const { email, password } = this.state;
+        this.props.onSubmit({
+            email,
+            password
+        });
     }
 
     render() {

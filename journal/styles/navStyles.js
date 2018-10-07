@@ -12,3 +12,5 @@ export default {
     },
     headerTintColor: '#82d8d8' // arrow back button
 };
+
+// backgroundColor: '#6200EE' // material purple
