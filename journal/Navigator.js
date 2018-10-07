@@ -6,6 +6,7 @@ import navStyles from './styles/navStyles';
 import Post from './components/posts/Post';
 import Posts from './components/posts/Posts';
 import NewPost from './components/posts/NewPost';
+import Login from './components/user/Login'
 
 class Home extends React.Component {
     static navigationOptions = {
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
 });
 
 
-export const Navigator = createStackNavigator({
+const Navigator = createStackNavigator({
     // loads first screen first
     Home: {
         screen: Home
@@ -63,3 +64,10 @@ export const Navigator = createStackNavigator({
         screen: NewPost
     }
 });
+
+const NavWrapper = (props) => {
+    return <Login />;
+    return <Navigator />;
+}
+
+export default NavWrapper;

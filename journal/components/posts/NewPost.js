@@ -16,7 +16,7 @@ class NewPost extends Component {
             title: 'New Post',
         };
     }
-    // when making a function like this we need to use
+    // when making a function like this DO we need to use
     // <PostForm onSubmit={this.newPost.bind(this)} />
     newPost({ title, body }) {
         const { newPost, navigation } = this.props;

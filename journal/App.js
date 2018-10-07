@@ -3,7 +3,7 @@ import { ApolloProvider } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
-import { Navigator } from './Navigator';
+import Navigator from './Navigator';
 
 // connection to graphql API
 const client = new ApolloClient({
