@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Text, TouchableHighlight, ActivityIndicator } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import { Fab, Icon } from "native-base";
 import navStyles from './styles/navStyles';
@@ -7,6 +7,8 @@ import Post from './components/posts/Post';
 import Posts from './components/posts/Posts';
 import NewPost from './components/posts/NewPost';
 import Login from './components/user/Login'
+import { compose, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 class Home extends React.Component {
     static navigationOptions = {
@@ -66,8 +68,22 @@ const Navigator = createStackNavigator({
 });
 
 const NavWrapper = (props) => {
-    return <Login />;
+    console.log(JSON.stringify(props.user, null, 2));
+    const { loading, user } = props; // loading comes with apollo queries
+    if (loading) return <ActivityIndicator size="large" />;
+    if (!user) return <Login />;
     return <Navigator />;
-}
+};
 
-export default NavWrapper;
+const userQuery = gql`
+    query userQuery{
+        user{ #where the user prop comes from 
+            id
+            email
+        }
+    }
+`;
+
+export default graphql(userQuery, {
+    props: ({ data }) => ({ ...data })
+})(NavWrapper);

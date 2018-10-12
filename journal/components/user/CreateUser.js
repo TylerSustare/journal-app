@@ -4,6 +4,7 @@ import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import UserForm from './UserForm';
+import { signIn } from "../../loginUtils";
 
 class CreateUser extends Component {
     createUser = async ({ email, password }) => {
@@ -14,7 +15,7 @@ class CreateUser extends Component {
             const signin = await this.props.signinUser({
                 variables: { email, password }
             });
-            console.log(signin.data.signinUser.token); // from the signin user mutation
+            signIn(signin.data.signinUser.token); // from the signin user mutation
         } catch (e) {
             console.log(e);
         }
