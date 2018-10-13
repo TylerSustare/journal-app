@@ -14,7 +14,7 @@ class Home extends React.Component {
     static navigationOptions = {
         ...navStyles,
         title: "Home",
-    }
+    };
 
     goToPost = () => {
         this.props.navigation.navigate('Post');
@@ -68,11 +68,10 @@ const Navigator = createStackNavigator({
 });
 
 const NavWrapper = (props) => {
-    console.log(JSON.stringify(props.user, null, 2));
     const { loading, user } = props; // loading comes with apollo queries
     if (loading) return <ActivityIndicator size="large" />;
     if (!user) return <Login />;
-    return <Navigator />;
+    return <Navigator screenProps={{ user }} />;
 };
 
 const userQuery = gql`
@@ -80,6 +79,10 @@ const userQuery = gql`
         user{ #where the user prop comes from 
             id
             email
+            posts(orderBy: createdAt_DESC){
+                id
+                title
+            }
         }
     }
 `;

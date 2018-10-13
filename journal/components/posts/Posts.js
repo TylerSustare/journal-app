@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { FlatList, Text, ActivityIndicator } from 'react-native';
 import { List, ListItem, Body, Right, Icon } from 'native-base';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+// import { graphql } from 'react-apollo';
+// import gql from 'graphql-tag';
 
-class Posts extends Component {
+export default class Posts extends Component {
     render() {
-        const { loading, allPosts, navigation } = this.props;
-        if (loading) return <ActivityIndicator size="large" />;
+        const { navigation, screenProps } = this.props;
         return (
             <List>
                 <FlatList
-                    data={allPosts}
+                    data={screenProps.user.posts}
                     renderItem={({ item }) => {
                         return ( // gotta remember to return 
                             <ListItem
@@ -21,7 +20,7 @@ class Posts extends Component {
                                 })}
                             >
                                 <Body>
-                                    <Text>{item.title}</Text>
+                                <Text>{item.title}</Text>
                                 </Body>
                                 <Right>
                                     <Icon name="md-arrow-forward" />
@@ -36,15 +35,16 @@ class Posts extends Component {
     }
 }
 
-const postsQuery = gql`
-    query postsQuery {
-        allPosts(orderBy: createdAt_DESC) {
-            id
-            title
-        }
-    }
-`;
+/* this is no longer needed after the relationship between users and posts*/
+// const postsQuery = gql`
+//     query postsQuery {
+//         allPosts(orderBy: createdAt_DESC) { # this.props.allPosts
+//             id
+//             title
+//         }
+//     }
+// `;
 
-export default graphql(postsQuery, {
-    props: ({ data }) => ({ ...data })
-})(Posts);
+// export default graphql(postsQuery, {
+//     props: ({ data }) => ({ ...data })
+// })(Posts);

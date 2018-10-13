@@ -8,7 +8,7 @@ import PostForm from './PostForm';
 class NewPost extends Component {
     state = {
         loading: false
-    }
+    };
 
     static navigationOptions() {
         return {
@@ -16,15 +16,17 @@ class NewPost extends Component {
             title: 'New Post',
         };
     }
+
     // when making a function like this DO we need to use
     // <PostForm onSubmit={this.newPost.bind(this)} />
     newPost({ title, body }) {
-        const { newPost, navigation } = this.props;
+        const { newPost, navigation, screenProps } = this.props;
         this.setState({ loading: true });
         newPost({
             variables: {
                 title,
-                body
+                body,
+                userId: screenProps.user.id // userId property comes from graphql(maybe graph cool) not explicitly stated in schema
             }
         }).then(() => {
             navigation.goBack();
@@ -48,13 +50,14 @@ class NewPost extends Component {
     // }
 
     render() {
+        // console.log(this.props.screenProps.user);
         return (
             <View>
                 {this.state.loading ? (
                     <ActivityIndicator size="large" />
                 ) : (
-                        <PostForm onSubmit={this.newPost.bind(this)} />
-                    )}
+                    <PostForm onSubmit={this.newPost.bind(this)} />
+                )}
             </View>
         );
     }
@@ -62,8 +65,8 @@ class NewPost extends Component {
 
 // name of mutation coming from graph-cool
 const newPost = gql`
-    mutation newPost($title: String!, $body: String!){
-        createPost(title: $title, body: $body){
+    mutation newPost($title: String!, $body: String!, $userId: ID!){
+        createPost(title: $title, body: $body, userId: $userId){
             id
         }
     }
