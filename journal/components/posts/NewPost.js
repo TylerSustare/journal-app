@@ -75,6 +75,6 @@ const newPost = gql`
 export default graphql(newPost, {
     name: 'newPost', // name the mutation from here
     options: {
-        refetchQueries: ['postsQuery']
+        refetchQueries: ['userQuery']
     }
 })(NewPost);

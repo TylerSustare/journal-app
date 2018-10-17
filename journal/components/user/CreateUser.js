@@ -16,6 +16,7 @@ class CreateUser extends Component {
                 variables: { email, password }
             });
             signIn(signin.data.signinUser.token); // from the signin user mutation
+            this.props.client.resetStore() // from using withApollo in the parent
         } catch (e) {
             console.log(e);
         }
@@ -36,11 +37,11 @@ class CreateUser extends Component {
 
 const createUser = gql`
     mutation createUser($email: String!, $password: String!){
-        createUser( 
-            authProvider: { 
-                email: { 
-                    email: $email 
-                    password: $password 
+        createUser(
+            authProvider: {
+                email: {
+                    email: $email
+                    password: $password
                 }
             }
         ) {

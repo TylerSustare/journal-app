@@ -13,6 +13,7 @@ class LoginUser extends Component {
                 variables: { email, password }
             });
             signIn(signin.data.signinUser.token); // from the signin user mutation
+            this.props.client.resetStore();
         } catch (e) {
             console.log(e);
         }

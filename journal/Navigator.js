@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, TouchableHighlight, ActivityIndicator, Button } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import { Fab, Icon } from "native-base";
 import navStyles from './styles/navStyles';
@@ -8,7 +8,9 @@ import Posts from './components/posts/Posts';
 import NewPost from './components/posts/NewPost';
 import Login from './components/user/Login'
 import { compose, graphql } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { signOut } from './loginUtils';
 
 class Home extends React.Component {
     static navigationOptions = {
@@ -28,10 +30,14 @@ class Home extends React.Component {
         return (
             <View style={styles.container}>
                 <Posts {...this.props} />
-                <Fab
-                    style={styles.newPost}
-                    onPress={this.goToNewPost}
-                >
+                <Button
+                    title={'logout'}
+                    onPress={() => {
+                        signOut();
+                        this.props.client.resetStore(); // react is re-rendering because of state/props change
+                    }}
+                />
+                <Fab style={styles.newPost} onPress={this.goToNewPost}>
                     <Icon name="md-add" />
                 </Fab>
             </View>
@@ -57,7 +63,7 @@ const styles = StyleSheet.create({
 const Navigator = createStackNavigator({
     // loads first screen first
     Home: {
-        screen: Home
+        screen: withApollo(Home) // temporary fix
     },
     Post: {
         screen: Post

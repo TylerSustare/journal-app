@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Button, Text, View, StyleSheet } from 'react-native';
 import CreateUser from './CreateUser';
 import LoginUser from './LoginUser';
+import { withApollo } from 'react-apollo';
 
-export default class Login extends Component {
+class Login extends Component {
     constructor(params) {
         super(params);
         this.state = {
@@ -16,10 +17,10 @@ export default class Login extends Component {
             <View style={styles.container}>
                 {
                     this.state.register ? (
-                        <CreateUser />
+                        <CreateUser {...this.props} />
                     ) : (
-                            <LoginUser />
-                        )
+                        <LoginUser {...this.props} />
+                    )
                 }
                 <Button
                     onPress={() => this.setState({ register: !this.state.register })}
@@ -36,3 +37,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center' // should put login in center of screen b/c default axis is 'y'
     }
 });
+
+export default withApollo(Login); // make the client prop available
