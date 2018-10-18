@@ -3,17 +3,21 @@ import { ScrollView, Button, View, StyleSheet } from 'react-native'
 import { Form, Item, Input, Label, ScrollableTab } from 'native-base';
 
 export default class PostForm extends Component {
+    static defaultProps = {
+        post: {}
+    };
+
     state = {
-        title: '',
-        body: ''
-    }
+        title: this.props.post.title || '',
+        body: this.props.post.body || ''
+    };
 
     submitForm = () => {
         this.props.onSubmit({
             title: this.state.title,
             body: this.state.body
         });
-    }
+    };
 
     render() {
         return (
@@ -22,7 +26,7 @@ export default class PostForm extends Component {
                     <Item floatingLabel>
                         <Label>
                             Title
-                    </Label>
+                        </Label>
                         <Input
                             onChangeText={title => this.setState({ title })}
                             value={this.state.title}

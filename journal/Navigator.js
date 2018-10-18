@@ -6,6 +6,7 @@ import navStyles from './styles/navStyles';
 import Post from './components/posts/Post';
 import Posts from './components/posts/Posts';
 import NewPost from './components/posts/NewPost';
+import UpdatePost from './components/posts/UpdatePost';
 import Login from './components/user/Login'
 import { compose, graphql } from 'react-apollo';
 import { withApollo } from 'react-apollo';
@@ -70,7 +71,10 @@ const Navigator = createStackNavigator({
     },
     NewPost: {
         screen: NewPost
-    }
+    },
+    UpdatePost: {
+        screen: UpdatePost
+    },
 });
 
 const NavWrapper = (props) => {

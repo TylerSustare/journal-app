@@ -17,7 +17,7 @@ export default class UserForm extends Component {
             email,
             password
         });
-    }
+    };
 
     render() {
         return (

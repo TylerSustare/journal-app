@@ -17,7 +17,7 @@ class LoginUser extends Component {
         } catch (e) {
             console.log(e);
         }
-    }
+    };
 
     render() {
         return (
