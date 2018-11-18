@@ -1,50 +1,63 @@
 import React, { Component } from 'react';
-import { FlatList, Text, ActivityIndicator } from 'react-native';
-import { List, ListItem, Body, Right, Icon } from 'native-base';
-// import { graphql } from 'react-apollo';
-// import gql from 'graphql-tag';
+import { ListView } from 'react-native';
+import { Container, Content, Body, Button, Icon, List, ListItem, Right, Text } from 'native-base';
+import * as Sentry from '@sentry/browser';
 
-export default class Posts extends Component {
+export default class SwipeableListExample extends Component {
+    constructor(props) {
+        super(props);
+        this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+        this.state = {
+            basic: true,
+            listViewData: this.props.screenProps.user.posts,
+        };
+    }
+    deleteRow(secId, rowId, rowMap) {
+        try {
+            rowMap[`${secId}${rowId}`].props.closeRow();
+            const newData = [...this.state.listViewData];
+            newData.splice(rowId, 1);
+            this.setState({ listViewData: newData });
+        } catch (e) {
+            Sentry.captureException(e);
+        }
+    }
     render() {
+        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         const { navigation, screenProps } = this.props;
+        // console.log(this.props.screenProps.user.posts);
         return (
-            <List>
-                <FlatList
-                    data={screenProps.user.posts}
-                    renderItem={({ item }) => {
-                        return ( // gotta remember to return 
-                            <ListItem
+            <Container>
+                <Content>
+                    <List
+                        leftOpenValue={75}
+                        rightOpenValue={-75}
+                        dataSource={this.ds.cloneWithRows(this.state.listViewData)}
+                        renderRow={data =>
+                            (<ListItem
                                 onPress={() => navigation.navigate('Post', {
-                                    id: item.id,
-                                    title: item.title // just a prop, name doesn't really matter
+                                    id: data.id,
+                                    title: data.title // just a prop, name doesn't really matter
                                 })}
                             >
                                 <Body>
-                                <Text>{item.title}</Text>
+                                    <Text>{data.title}</Text>
                                 </Body>
                                 <Right>
                                     <Icon name="md-arrow-forward" />
                                 </Right>
-                            </ListItem>
-                        );
-                    }}
-                    keyExtractor={item => item.id}
-                />
-            </List>
+                            </ListItem>)}
+                        renderLeftHiddenRow={data =>
+                            (<Button full onPress={() => alert(data.title.length)}>
+                                <Icon active name="information-circle" />
+                            </Button>)}
+                        renderRightHiddenRow={(data, secId, rowId, rowMap) =>
+                            (<Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
+                                <Icon active name="trash" />
+                            </Button>)}
+                    />
+                </Content>
+            </Container>
         );
     }
 }
-
-/* this is no longer needed after the relationship between users and posts*/
-// const postsQuery = gql`
-//     query postsQuery {
-//         allPosts(orderBy: createdAt_DESC) { # this.props.allPosts
-//             id
-//             title
-//         }
-//     }
-// `;
-
-// export default graphql(postsQuery, {
-//     props: ({ data }) => ({ ...data })
-// })(Posts);
