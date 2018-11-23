@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import * as Sentry from '@sentry/browser';
 
 import UserForm from './UserForm';
 import { signIn } from "../../loginUtils";
@@ -15,7 +16,7 @@ class LoginUser extends Component {
             signIn(signin.data.signinUser.token); // from the signin user mutation
             this.props.client.resetStore();
         } catch (e) {
-            console.log(e);
+            Sentry.captureException(error)
         }
     };
 

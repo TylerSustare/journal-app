@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import navStyles from '../../styles/navStyles';
 import PostForm from './PostForm';
+import * as Sentry from '@sentry/browser';
 
 class NewPost extends Component {
     state = {
@@ -32,7 +33,7 @@ class NewPost extends Component {
             navigation.goBack();
         }).catch(error => {
             this.setState({ loading: false });
-            console.log(error)
+            Sentry.captureException(e)
         });
     }
 
@@ -56,8 +57,8 @@ class NewPost extends Component {
                 {this.state.loading ? (
                     <ActivityIndicator size="large" />
                 ) : (
-                    <PostForm onSubmit={this.newPost.bind(this)} />
-                )}
+                        <PostForm onSubmit={this.newPost.bind(this)} />
+                    )}
             </View>
         );
     }
