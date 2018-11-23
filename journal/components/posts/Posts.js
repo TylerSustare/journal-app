@@ -39,7 +39,6 @@ class Posts extends Component {
                     <List
                         leftOpenValue={75}
                         rightOpenValue={-75}
-                        // dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                         dataSource={this.ds.cloneWithRows(this.props.screenProps.user.posts)}
                         renderRow={data =>
                             (<ListItem
@@ -56,7 +55,7 @@ class Posts extends Component {
                                 </Right>
                             </ListItem>)}
                         renderLeftHiddenRow={data =>
-                            (<Button full onPress={() => alert(data.title.length)}>
+                            (<Button full onPress={() => alert('Salmon')}>
                                 <Icon active name="information-circle" />
                             </Button>)}
                         renderRightHiddenRow={(data, secId, rowId, rowMap) =>
