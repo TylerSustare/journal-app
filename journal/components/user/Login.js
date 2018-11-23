@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Text, View, StyleSheet } from 'react-native';
+import { Button, View, StyleSheet } from 'react-native';
 import CreateUser from './CreateUser';
 import LoginUser from './LoginUser';
 import { withApollo } from 'react-apollo';
@@ -16,11 +16,7 @@ class Login extends Component {
         return (
             <View style={styles.container}>
                 {
-                    this.state.register ? (
-                        <CreateUser {...this.props} />
-                    ) : (
-                        <LoginUser {...this.props} />
-                    )
+                    this.state.register ? (<CreateUser {...this.props} />) : (<LoginUser {...this.props} />)
                 }
                 <Button
                     onPress={() => this.setState({ register: !this.state.register })}
