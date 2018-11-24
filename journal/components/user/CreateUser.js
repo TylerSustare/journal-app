@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import * as Sentry from '@sentry/browser';
@@ -8,6 +8,10 @@ import UserForm from './UserForm';
 import { signIn } from "../../loginUtils";
 
 class CreateUser extends Component {
+    state = {
+        loading: false
+    };
+
     createUser = async ({ email, password }) => {
         try {
             const user = await this.props.createUser({
@@ -16,25 +20,40 @@ class CreateUser extends Component {
             const signin = await this.props.signinUser({
                 variables: { email, password }
             });
+            this.setState({ loading: true })
             signIn(signin.data.signinUser.token); // from the signin user mutation
             this.props.client.resetStore() // from using withApollo in the parent
         } catch (error) {
-            Sentry.captureException(error)
+            if (error.graphQLErrors[0].message === 'User already exists with that information') {
+                alert('Error creating account.')
+            } else {
+                alert('Error signing up.\n The developer has been notified');
+                Sentry.captureException(error);
+            }
         }
     }
 
     render() {
         return (
-            <View>
-                <Text>Register</Text>
-                <UserForm
-                    onSubmit={this.createUser}
-                    type="Register"
-                />
+            <View style={styles.container}>
+                {this.state.loading
+                    ? <ActivityIndicator />
+                    :
+                    <UserForm
+                        onSubmit={this.createUser}
+                        type="Create Account"
+                    />}
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingTop: 100
+    }
+});
 
 const createUser = gql`
     mutation createUser($email: String!, $password: String!){

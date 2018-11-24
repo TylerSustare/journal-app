@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableHighlight, ActivityIndicator, Button } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
-import { Fab, Icon } from "native-base";
+import { StyleSheet, View, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { Button, Fab, Icon, Text } from "native-base";
 import navStyles from './styles/navStyles';
 import Post from './components/posts/Post';
 import Posts from './components/posts/Posts';
@@ -12,6 +12,8 @@ import { compose, graphql } from 'react-apollo';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { signOut } from './loginUtils';
+import CreateUser from './components/user/CreateUser';
+import LoginUser from './components/user/LoginUser';
 
 class Home extends React.Component {
     static navigationOptions = {
@@ -31,17 +33,30 @@ class Home extends React.Component {
         return (
             <View style={styles.container}>
                 <Posts {...this.props} />
-                <Button
-                    title={'logout'}
-                    onPress={() => {
-                        signOut();
-                        this.props.client.resetStore(); // react is re-rendering because of state/props change
-                    }}
-                />
+                <View style={styles.buttonStyle}>
+                    <Button iconRight
+                        onPress={() => {
+                            signOut();
+                            this.props.client.resetStore(); // react is re-rendering because of state/props change
+                        }}
+                    >
+                        <Text>Log Out</Text>
+                        <Icon name="md-log-out" />
+                    </Button>
+                </View>
+                {/* <Fab style={styles.logOut} */}
+                {/* onPress={() => { */}
+                {/* signOut(); */}
+                {/* this.props.client.resetStore(); // react is re-rendering because of state/props change */}
+                {/* }} */}
+                {/* position="bottomLeft" */}
+                {/* > */}
+                {/* <Icon name="md-log-out" /> */}
+                {/* </Fab> */}
                 <Fab style={styles.newPost} onPress={this.goToNewPost}>
                     <Icon name="md-add" />
                 </Fab>
-            </View>
+            </View >
         );
     }
 }
@@ -57,6 +72,9 @@ const styles = StyleSheet.create({
     newPostText: {
         fontSize: 20,
         textAlign: 'center'
+    },
+    buttonStyle: {
+        backgroundColor: '#FFF'
     }
 });
 
@@ -77,10 +95,31 @@ const Navigator = createStackNavigator({
     },
 });
 
+const UserNavigator = createBottomTabNavigator(
+    {
+        Login: {
+            screen: withApollo(LoginUser)
+        },
+        Create: {
+            screen: withApollo(CreateUser)
+        }
+    },
+    {
+        navigationOptions: ({ navigation }) => ({
+            tabBarIcon: navigation.state.routeName === 'Login' ? <Icon name="md-log-in" /> : <Icon name="md-person-add" />,
+            title: navigation.state.routeName,
+        }),
+        tabBarOptions: {
+            activeTintColor: 'tomato',
+            inactiveTintColor: 'gray',
+            activeBackgroundColor: "#F5F5F5",
+        },
+    });
+
 const NavWrapper = (props) => {
     const { loading, user } = props; // loading comes with apollo queries
     if (loading) return <ActivityIndicator size="large" />;
-    if (!user) return <Login />;
+    if (!user) return <UserNavigator />;
     return <Navigator screenProps={{ user }} />;
 };
 

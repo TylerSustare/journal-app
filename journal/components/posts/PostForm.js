@@ -52,7 +52,7 @@ export default class PostForm extends Component {
 
 const styles = StyleSheet.create({
     body: {
-        height: 300,
+        height: 150,
         textAlignVertical: 'top'
     },
 });

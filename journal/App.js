@@ -32,7 +32,7 @@ const client = new ApolloClient({
     cache: new InMemoryCache()
 });
 
-class ExampleBoundary extends React.Component {
+class SentryBoundary extends React.Component {
     constructor(props) {
         super(props);
         this.state = { error: null };
@@ -72,11 +72,11 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <ExampleBoundary>
+            <SentryBoundary>
                 <ApolloProvider client={client}>
                     <Navigator />
                 </ApolloProvider>
-            </ExampleBoundary>
+            </SentryBoundary>
         );
     }
 }
