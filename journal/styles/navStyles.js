@@ -2,7 +2,7 @@ export default {
     title: 'Home',
     // header: null // no header
     headerStyle: {
-        backgroundColor: '#373142'
+        backgroundColor: '#665294'
     },
     headerTitleStyle: {
         color: '#FFF'

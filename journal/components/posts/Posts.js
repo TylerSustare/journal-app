@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { ListView } from 'react-native';
+import { Alert, ListView } from 'react-native';
 import { Container, Content, Body, Button, Icon, List, ListItem, Right, Text } from 'native-base';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import * as Sentry from '@sentry/browser';
+import { Fish } from '../../fish';
 
 class Posts extends Component {
     constructor(props) {
@@ -14,6 +15,30 @@ class Posts extends Component {
             listViewData: this.props.screenProps.user.posts,
         };
     }
+
+    getRandomFish() {
+        const fishNumber = Math.floor(Math.random() * Math.floor(Fish.length - 1));
+        Alert.alert(
+            Fish[fishNumber],
+            `Fish Number ${fishNumber}`,
+            [
+                { text: 'OK', onPress: () => { } }
+            ]
+        )
+    }
+
+    confirmDelete(secId, rowId, rowMap, id) {
+        Alert.alert(
+            'Warning',
+            'Really delete this item?',
+            [
+                { text: 'No, Keep It', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                { text: 'Yes, Delete It', onPress: () => this.deleteRow(secId, rowId, rowMap, id) },
+            ],
+            { cancelable: false }
+        )
+    }
+
     async deleteRow(secId, rowId, rowMap, id) {
         const { deletePost } = this.props;
         try {
@@ -55,11 +80,12 @@ class Posts extends Component {
                                 </Right>
                             </ListItem>)}
                         renderLeftHiddenRow={data =>
-                            (<Button full onPress={() => alert('Salmon')}>
-                                <Icon active name="information-circle" />
+                            (<Button full onPress={() => this.getRandomFish()}>
+                                <Icon active name="md-boat" />
                             </Button>)}
                         renderRightHiddenRow={(data, secId, rowId, rowMap) =>
-                            (<Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap, data.id)}>
+                            // (<Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap, data.id)}>
+                            (<Button full danger onPress={_ => this.confirmDelete(secId, rowId, rowMap, data.id)}>
                                 <Icon active name="trash" />
                             </Button>)}
                     />
