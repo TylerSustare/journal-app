@@ -18,7 +18,7 @@ import LoginUser from './components/user/LoginUser';
 class Home extends React.Component {
     static navigationOptions = {
         ...navStyles,
-        title: "Home",
+        title: "Journal",
     };
 
     goToPost = () => {
@@ -34,11 +34,11 @@ class Home extends React.Component {
             <View style={styles.container}>
                 <Posts {...this.props} />
                 <View style={styles.buttonStyle}>
-                    <Button iconRight
-                        onPress={() => {
-                            signOut();
-                            this.props.client.resetStore(); // react is re-rendering because of state/props change
-                        }}
+                    <Button iconRight light
+                            onPress={() => {
+                                signOut();
+                                this.props.client.resetStore(); // react is re-rendering because of state/props change
+                            }}
                     >
                         <Text>Log Out</Text>
                         <Icon name="md-log-out" />
@@ -56,7 +56,7 @@ class Home extends React.Component {
                 <Fab style={styles.newPost} onPress={this.goToNewPost}>
                     <Icon name="md-add" />
                 </Fab>
-            </View >
+            </View>
         );
     }
 }
@@ -74,7 +74,9 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     buttonStyle: {
-        backgroundColor: '#FFF'
+        backgroundColor: '#FFF',
+        flexDirection: "row",
+        justifyContent: 'space-between'
     }
 });
 

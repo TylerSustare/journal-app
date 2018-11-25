@@ -14,7 +14,7 @@ class NewPost extends Component {
     static navigationOptions() {
         return {
             ...navStyles,
-            title: 'New Post',
+            title: 'New',
         };
     }
 
@@ -57,8 +57,8 @@ class NewPost extends Component {
                 {this.state.loading ? (
                     <ActivityIndicator size="large" />
                 ) : (
-                        <PostForm onSubmit={this.newPost.bind(this)} />
-                    )}
+                    <PostForm onSubmit={this.newPost.bind(this)} />
+                )}
             </View>
         );
     }

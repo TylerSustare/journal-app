@@ -43,7 +43,7 @@ export default class PostForm extends Component {
                             value={this.state.body}
                         />
                     </Item>
-                    <Button title="Save Post" onPress={this.submitForm} />
+                    <Button title="Save" onPress={this.submitForm} />
                 </Form>
             </ScrollView>
         )

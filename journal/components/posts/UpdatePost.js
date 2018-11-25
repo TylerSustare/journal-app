@@ -14,7 +14,7 @@ class UpdatePost extends Component {
     static navigationOptions() {
         return {
             ...navStyles,
-            title: 'Update Post',
+            title: 'Update',
         };
     }
 
@@ -44,8 +44,8 @@ class UpdatePost extends Component {
                 {this.state.loading ? (
                     <ActivityIndicator size="large" />
                 ) : (
-                        <PostForm onSubmit={this.updatePost.bind(this)} post={this.props.Post} />
-                    )}
+                    <PostForm onSubmit={this.updatePost.bind(this)} post={this.props.Post} />
+                )}
             </View>
         );
     }
