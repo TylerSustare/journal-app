@@ -1,16 +1,19 @@
 {
   "expo": {
     "name": "journal",
-    "description": "This project is really great.",
+    "description": "Simple Journal App. Keep memories safe and secure without the paper.",
     "slug": "journal",
     "privacy": "public",
     "sdkVersion": "30.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./Journal.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./Journal-Splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,7 +24,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tylersustare.journal"
     }
   }
 }
